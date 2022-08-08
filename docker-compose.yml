@@ -1,0 +1,51 @@
+version: "3.9"
+services:
+  tensorweb_postgres:
+    image: postgres
+    container_name: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "8001:5432"
+  auth-server:
+    container_name: auth-server
+    image: auth:latest 
+    build:
+      context: auth
+      dockerfile: Dockerfile
+    ports:
+     - "8080:8080"
+    restart: always
+    depends_on:
+      - tensorweb_postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
+  accounts-server:
+    container_name: accounts-server
+    image: accounts:latest
+    build:
+      context: account
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    restart: always
+    depends_on:
+      - tensorweb_postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
+  nginx-server:
+    container_name: nginx-server
+    image: nginx-server:latest
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
