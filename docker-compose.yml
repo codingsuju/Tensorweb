@@ -25,14 +25,30 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
-  accounts-server:
-    container_name: accounts-server
-    image: accounts:latest
+  account-server:
+    container_name: account-server
+    image: account:latest
     build:
       context: account
       dockerfile: Dockerfile
     ports:
       - "8082:8082"
+    restart: always
+    depends_on:
+      - tensorweb_postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
+  course-server:
+    container_name: course-server
+    image: course:latest
+    build:
+      context: courses
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
     restart: always
     depends_on:
       - tensorweb_postgres

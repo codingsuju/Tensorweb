@@ -4,5 +4,5 @@ cd account
 mvn package
 cd ../auth
 mvn package
-cd ..
-sudo docker compose up --build
+cd ../courses
+mvn package

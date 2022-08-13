@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.*;
 public class AccountController {
     @Autowired
     ProfileRepository profileRepository;
-    @GetMapping("/hello")
+    @GetMapping("/api/account/hello")
     public String sayHello(){
         return "Hello World";
     }
-    @GetMapping("/api/{username}/profile")
+    @GetMapping("/api/account/user/{username}/profile")
     public Profile getProfile(@PathVariable String username){
         return profileRepository.findByUsername(username);
     }
-    @PostMapping("/api/{username}/profile")
+    @PostMapping("/api/account/user/{username}/profile")
     public Profile setProfile(@PathVariable String username,Profile profile){
         Profile user_profile=profileRepository.findByUsername(username);
         if(profile==null){
@@ -29,7 +29,7 @@ public class AccountController {
         profile.setUsername(username);
         return profileRepository.save(profile);
     }
-    @PutMapping("/api/{username}/profile")
+    @PutMapping("/api/account/user/{username}/profile")
     public Profile updateProfile(@PathVariable String username,Profile profile){
         Profile user_profile=profileRepository.findByUsername(username);
         if(profile==null){
@@ -40,7 +40,7 @@ public class AccountController {
         profile.setUsername(username);
         return profileRepository.save(profile);
     }
-    @GetMapping("/profiles/init/delete")
+    @GetMapping("/api/account/profiles/init/delete")
     public String delete(){
         profileRepository.deleteAll();
         return "Success";

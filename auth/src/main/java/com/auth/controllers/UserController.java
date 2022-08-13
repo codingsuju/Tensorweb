@@ -14,7 +14,7 @@ import java.security.Principal;
 public class UserController {
     @Autowired
     UserRepository userRepository;
-    @PostMapping("/register")
+    @PostMapping("/api/auth/register")
     public AppUser register(@RequestBody AppUser clientuser){
         if(userRepository.findByUsername(clientuser.getUsername())!=null){
             return new AppUser();
@@ -25,11 +25,11 @@ public class UserController {
         user.setRole("USER");
         return userRepository.save(user);
     }
-    @GetMapping("/user")
+    @GetMapping("/api/auth/user")
     public Principal user(Principal user){
         return user;
     }
-    @GetMapping("/init/start")
+    @GetMapping("/api/auth/init/start")
     public String init(){
         //Create Users
         AppUser u1=new AppUser();
@@ -54,12 +54,12 @@ public class UserController {
         userRepository.save(u4);
         return "Successfully initialized";
     }
-    @GetMapping("/init/delete")
+    @GetMapping("/api/auth/init/delete")
     public String delete(){
         userRepository.deleteAll();
         return "Successfully initialized";
     }
-    @GetMapping("/api/{username}/userinfo")
+    @GetMapping("/api/auth/user/{username}/userinfo")
     public UserResponse username(@PathVariable String username){
         AppUser appUser=userRepository.findByUsername(username);
         return new UserResponse(appUser.getUsername(),appUser.getRole());

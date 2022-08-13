@@ -31,7 +31,7 @@ public class JwtController {
         return "Welcome to Tensorweb!!";
     }
 
-    @PostMapping("/authenticate")
+    @PostMapping("/api/auth/authenticate")
     public JwtResponse authenticate(@RequestBody JwtRequest jwtRequest) throws Exception{
         try {
             authenticationManager.authenticate(

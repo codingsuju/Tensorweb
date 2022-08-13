@@ -1,5 +1,5 @@
-package com.auth.config;
-import com.auth.filter.JwtFilter;
+package com.courses.config;
+import com.courses.filter.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,12 +38,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
         http.csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/api/auth/authenticate")
-                .permitAll()
                 .antMatchers("/h2-console/**").permitAll()
-                .antMatchers("/api/auth/register/**").permitAll()
-                .antMatchers("/api/auth/init/**").permitAll()
-                .antMatchers("/api/auth/user/{username}/**")
+                .antMatchers("/api/course/courses/init/**").permitAll()
+                .antMatchers("/api/course/user/{username}/**")
                 .access("@userSecurity.hasUsername(#username)")
                 .anyRequest()
                 .authenticated()
